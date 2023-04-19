@@ -1,0 +1,30 @@
+# 基础镜像
+FROM apache/skywalking-java-agent:8.14.0-java8
+# author
+MAINTAINER ivanlai
+
+# 环境变量
+ENV TZ Asia/Shanghai
+ENV SPRING_PROFILES_ACTIVE test
+ENV SW_AGENT_NAME appName
+ENV SW_AGENT_COLLECTOR_BACKEND_SERVICES 172.16.253.112:11800
+
+# skywalking agent plugins
+RUN cp /skywalking/agent/optional-plugins/apm-quartz-scheduler-2.x-plugin-8.14.0.jar /skywalking/agent/plugins/
+RUN cp /skywalking/agent/optional-plugins/apm-mybatis-3.x-plugin-8.14.0.jar /skywalking/agent/plugins/
+RUN cp /skywalking/agent/optional-plugins/apm-spring-annotation-plugin-8.14.0.jar /skywalking/agent/plugins/
+RUN cp /skywalking/agent/optional-plugins/apm-spring-tx-plugin-8.14.0.jar /skywalking/agent/plugins/
+RUN cp /skywalking/agent/optional-plugins/apm-spring-cloud-gateway-3.x-plugin-8.14.0.jar /skywalking/agent/plugins/
+RUN cp /skywalking/agent/optional-plugins/apm-spring-webflux-5.x-plugin-8.14.0.jar /skywalking/agent/plugins/
+RUN cp /skywalking/agent/optional-plugins/apm-trace-ignore-plugin-8.14.0.jar /skywalking/agent/plugins/
+
+# 挂载目录
+VOLUME /data
+# 创建目录
+RUN mkdir -p /data
+# 指定路径
+WORKDIR /data
+# 复制jar文件到路径
+#COPY ./jar/app.jar /data/app.jar
+# 启动服务
+ENTRYPOINT ["java","-jar","jar/app.jar"]

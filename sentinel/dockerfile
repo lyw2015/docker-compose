@@ -1,0 +1,20 @@
+# 基础镜像
+FROM  openjdk:8-jre
+# author
+MAINTAINER ivanlai
+
+# 环境变量
+ENV TZ Asia/Shanghai
+
+# 挂载目录
+VOLUME /data
+# 创建目录
+RUN mkdir -p /data
+# 指定路径
+WORKDIR /data
+# 复制jar文件到路径
+# COPY ./jar/sentinel-dashboard.jar /data/jar/sentinel-dashboard.jar
+# 指定外界交互端口
+EXPOSE 8718
+# 启动网关服务
+ENTRYPOINT ["java","-jar","-Dserver.port=8718","-Dcsp.sentinel.dashboard.server=172.16.253.112:8718","-Dcsp.sentinel.log.dir=/data/logs","jar/sentinel-dashboard.jar"]
