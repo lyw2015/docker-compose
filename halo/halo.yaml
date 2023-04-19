@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  halo:
+    restart: always
+    container_name: halo
+    image: halohub/halo:2.4
+    network_mode: host
+    environment:
+      TZ: Asia/Shanghai
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8090/actuator/health/readiness" ]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    command:
+      - --spring.r2dbc.url=r2dbc:pool:mysql://mysql:3306/halo
+      - --spring.r2dbc.username=root
+      - --spring.r2dbc.password=root
+      - --spring.sql.init.platform=mysql
+      # 外部访问地址，请根据实际需要修改
+      - --halo.external-url=https://blog.laiyw.top
+      - --halo.security.initializer.superadminusername=admin
+      - --halo.security.initializer.superadminpassword=admin
+    volumes:
+      - /data/halo2:/root/.halo2
