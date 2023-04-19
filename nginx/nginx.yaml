@@ -2,7 +2,7 @@ version: '3.8'
 services:
   nginx:
     restart: always
-    container_name: oss-nginx
+    container_name: nginx
     image: nginx
     network_mode: host
     healthcheck:

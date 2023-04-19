@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  seata:
+    restart: always
+    container_name: seata
+    image: seataio/seata-server:1.6.1
+    network_mode: host
+    environment:
+      TZ: Asia/Shanghai
+      SPRING_PROFILES_ACTIVE: test
+    volumes:
+      - /data/seata/application.yml:/seata-server/resources/application.yml
+      - /data/seata/logs:/seata-server/logs

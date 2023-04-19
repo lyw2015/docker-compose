@@ -9,6 +9,14 @@ services:
     environment:
       TZ: Asia/Shanghai
     # jar包放至/data/apps/appName目录
-    command: java -jar -jar /data/app-0.0.1-SNAPSHOT.jar
+    command: java -jar /data/jar/app.jar
     volumes:
       - /data/apps/appName:/data
+  appName-skywalking-agent:
+    restart: always
+    container_name: appName-skywalking-agent
+    network_mode: host
+    build:
+      dockerfile: dockerfile-skywalking-agent
+    volumes:
+      - /data/apps/appName-sa:/data

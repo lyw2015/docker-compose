@@ -2,7 +2,7 @@ version: '3.8'
 services:
   nacos:
     restart: always
-    container_name: oss-nacos
+    container_name: nacos
     image: nacos/nacos-server:v2.2.0
     network_mode: host
     environment:
