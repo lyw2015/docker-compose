@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  appName:
+    restart: always
+    container_name: appName
+    image: openjdk:8-jre-alpine
+    network_mode: host
+    working_dir: /data
+    environment:
+      TZ: Asia/Shanghai
+    # jar包放至/data/apps/appName目录
+    command: java -jar -jar /data/app-0.0.1-SNAPSHOT.jar
+    volumes:
+      - /data/apps/appName:/data
