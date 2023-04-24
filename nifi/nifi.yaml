@@ -1,26 +1,24 @@
 version: '3.8'
 services:
+  # 创建目录并授权 mkdir -p /data/nifi/logs /data/nifi/extensions /data/nifi/content_repository /data/nifi/database_repository /data/nifi/flowfile_repository /data/nifi/provenance_repository && chmod -R 777 /data/nifi
+  # 容器内配置用户 ./bin/nifi.sh set-single-user-credentials <username> <password>
   nifi:
     restart: always
     container_name: nifi
     image: apache/nifi:latest
     ports:
-      - "18080:18080"
+      - "8443:8443"
     environment:
       TZ: Asia/Shanghai
-      # default 8000
-      JAVA_ARG_DEBUG: 18000
-      # default 8080
-      NIFI_WEB_HTTP_PORT: 18080
-      # default 8443
-      NIFI_WEB_HTTPS_PORT: 18443
-      NIFI_REMOTE_INPUT_SOCKET_PORT: 10000
-      # Docker容器IP
-      NIFI_WEB_HTTP_HOST: 172.23.0.2
+      # JAVA_ARG_DEBUG: 8000
+      # NIFI_WEB_HTTP_PORT: 8080
+      NIFI_WEB_HTTPS_PORT: 8443
+      # NIFI_REMOTE_INPUT_SOCKET_PORT: 10000
+      NIFI_WEB_PROXY_HOST: 172.16.253.112:8443
       SINGLE_USER_CREDENTIALS_USERNAME: admin
       # 密码必须至少为12个字符，否则NiFi将生成一个随机的用户名和密码
       SINGLE_USER_CREDENTIALS_PASSWORD: admin@123456
-    volumes: # 授权 chmod -R 777 /data/nifi
+    volumes:
       - /data/nifi/logs:/opt/nifi/nifi-current/logs
       - /data/nifi/extensions:/opt/nifi/nifi-current/extensions
       - /data/nifi/content_repository:/opt/nifi/nifi-current/content_repository
