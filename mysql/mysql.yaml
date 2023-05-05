@@ -25,4 +25,5 @@ services:
     volumes:
       - /data/mysql/conf:/etc/mysql/conf.d
       - /data/mysql/data:/var/lib/mysql
-      - /data/mysql/logs:/var/log/mysql
+      # logs需要授权
+      - /data/mysql/logs:/var/log
