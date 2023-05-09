@@ -14,7 +14,7 @@ services:
       retries: 5
       start_period: 30s
     command:
-      - --spring.r2dbc.url=r2dbc:pool:mysql://mysql:3306/halo
+      - --spring.r2dbc.url=r2dbc:pool:mysql://127.0.0.1:3306/halo
       - --spring.r2dbc.username=root
       - --spring.r2dbc.password=root
       - --spring.sql.init.platform=mysql
