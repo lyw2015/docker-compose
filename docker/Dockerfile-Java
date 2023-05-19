@@ -1,0 +1,25 @@
+#FROM ibm-semeru-runtimes:open-8-jre
+FROM adoptopenjdk/openjdk8-openj9:alpine-slim
+
+ENV TZ Asia/Shanghai
+ENV WORKDIR /data
+
+# Alphine与Ubuntu类型镜像需要安装tzdata
+RUN apk add tzdata # Alphine
+#RUN apt-get install -y tzdata # Ubuntu
+RUN ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime
+
+RUN mkdir -p ${WORKDIR}
+WORKDIR ${WORKDIR}
+
+COPY target/*.jar ${WORKDIR}/app.jar
+
+EXPOSE 8548
+
+# UseContainerSupport 适配docker内存限制
+ENTRYPOINT exec java -server -Xss256k \
+    -XX:+UseContainerSupport -XX:InitialRAMPercentage=80 -XX:MinRAMPercentage=80 -XX:MaxRAMPercentage=95 \
+    -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintHeapAtGC -XX:+PrintTenuringDistribution -Xloggc:${WORKDIR}/logs/jvm/gc.log \
+    -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=${WORKDIR}/logs/jvm/java_heapdump.hprof \
+    -Djava.security.egd=file:/dev/./urandom -Duser.timezone=GMT+08 -XX:+AlwaysPreTouch \
+    ${JAVA_OPTS} -jar app.jar
