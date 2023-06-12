@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  rancher:
+    restart: always
+    container_name: rancher
+    image: rancher/rancher:latest
+    privileged: true
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      AUDIT_LEVEL: 1
+      AUDIT_LOG_PATH: /var/lib/rancher/logs/auditlog/rancher-api-audit.log
+      AUDIT_LOG_MAXAGE: 20
+      AUDIT_LOG_MAXBACKUP: 20
+      AUDIT_LOG_MAXSIZE: 100
+    command:
+      - --features=<FEATURE-FLAG-NAME-1>=true,<FEATURE-FLAG-NAME-2>=true
+    volumes:
+      - /data/rancher:/var/lib/rancher

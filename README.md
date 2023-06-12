@@ -17,7 +17,12 @@ systemctl start docker && systemctl enable docker
 #镜像加速
 vim /etc/docker/daemon.json
 {
-  "registry-mirrors": ["https://xxx.mirror.aliyuncs.com"]
+  "registry-mirrors": [
+    "https://xxx.mirror.aliyuncs.com",
+    "https://hub-mirror.c.163.com",
+    "https://mirror.baidubce.com",
+    "https://ccr.ccs.tencentyun.com"
+  ]
 }
 ```
 
