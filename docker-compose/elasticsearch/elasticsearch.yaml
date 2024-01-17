@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  elasticsearch:
+    restart: always
+    image: elasticsearch:8.5.0
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+    environment:
+      - "TZ=Asia/Shanghai"
+      - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - /home/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - /home/elasticsearch/data:/usr/share/elasticsearch/data
+      - /home/elasticsearch/plugins:/usr/share/elasticsearch/plugins
